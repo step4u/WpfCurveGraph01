@@ -59,7 +59,8 @@
                         EasingFunction="{x:Null}"
                         DrawMargin="{Binding DrawMarginCurveHistogram}"
                         DrawMarginFrame="{Binding DrawMarginFrameHisto}"
-                        IsHitTestVisible="False">
+                        IsHitTestVisible="False"
+                        Opacity="0.3">
                     </lvc1:CartesianChart>
 
                     <lvc1:CartesianChart
@@ -68,7 +69,7 @@
                         Margin="1"
                         LegendPosition="Hidden"
                         Background="Transparent"
-                        Series="{Binding CurveSeries}"
+                        Series="{Binding SeriesCurve}"
                         XAxes="{Binding XAxesCurve}"
                         YAxes="{Binding YAxesCurve}"
                         AnimationsSpeed="0:0:0"

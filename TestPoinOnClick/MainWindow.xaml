@@ -10,12 +10,18 @@
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>
-    <Grid>
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Border BorderThickness="1" BorderBrush="Black">
         <lvc:CartesianChart
-        x:Name="chart"
-        Series="{Binding SeriesCollection}"
-        PointerPressedCommand="{Binding PointerDownCommand}"
-        TooltipPosition="Hidden">
+            x:Name="chart"
+            Width="300" Height="300"
+            Series="{Binding SeriesCollection}"
+            ChartPointPointerDown="chart_ChartPointPointerDown"
+            MouseMove="chart_MouseMove"
+            MouseUp="chart_MouseUp"
+            AnimationsSpeed="0:0:0"
+            TooltipPosition="Hidden">
         </lvc:CartesianChart>
-    </Grid>
+        </Border>
+    </StackPanel>
 </Window>

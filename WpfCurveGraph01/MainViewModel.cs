@@ -16,6 +16,8 @@ using System.Windows;
 using System.Diagnostics;
 using LiveChartsCore.Measure;
 using System.Windows.Media;
+using LiveChartsCore.Defaults;
+using System.Collections.ObjectModel;
 
 namespace WpfCurveGraph01
 {
@@ -143,6 +145,20 @@ namespace WpfCurveGraph01
             };
 
             selectedItemHistoCombo = HistoComboItems.FirstOrDefault();
+
+            SeriesCurve = new ISeries[]
+            {
+                new LineSeries<ObservablePoint>()
+                {
+                    Values = new ObservableCollection<ObservablePoint>
+                    {
+                        new(0, 0),
+                        new(255, 255)
+                    },
+                    Fill = null,
+                    DataPadding = new LiveChartsCore.Drawing.LvcPoint(0, 0)
+                }
+            };
         }
 
         private WriteableBitmap? selectedBitmap = null;
@@ -201,14 +217,11 @@ namespace WpfCurveGraph01
                     var greenHistogram = GetHistogram(selectedBitmap, 1);
                     var blueHistogram = GetHistogram(selectedBitmap, 0);
 
-                    //int maxVal = Math.Max(redHistogram.Max(), greenHistogram.Max());
-                    //maxVal = Math.Max(maxVal, blueHistogram.Max());
-
                     _series = new ISeries[]
                     {
-                        new LineSeries<int> { Values = redHistogram, Fill = new SolidColorPaint(SKColors.CornflowerBlue), Stroke = null, GeometryFill = null, GeometryStroke = null, IsHoverable = false },
-                        new LineSeries<int> { Values = greenHistogram, Fill = new SolidColorPaint(SKColors.CornflowerBlue), Stroke = null, GeometryFill = null, GeometryStroke = null, IsHoverable = false },
-                        new LineSeries<int> { Values = blueHistogram, Fill = new SolidColorPaint(SKColors.CornflowerBlue), Stroke = null, GeometryFill = null, GeometryStroke = null, IsHoverable = false },
+                        new LineSeries<int> { Values = redHistogram, Fill = new SolidColorPaint(SKColors.CornflowerBlue), Stroke = null, GeometryFill = null, GeometryStroke = null, IsHoverable = false, LineSmoothness = 1 },
+                        new LineSeries<int> { Values = greenHistogram, Fill = new SolidColorPaint(SKColors.CornflowerBlue), Stroke = null, GeometryFill = null, GeometryStroke = null, IsHoverable = false, LineSmoothness = 1 },
+                        new LineSeries<int> { Values = blueHistogram, Fill = new SolidColorPaint(SKColors.CornflowerBlue), Stroke = null, GeometryFill = null, GeometryStroke = null, IsHoverable = false, LineSmoothness = 1 },
                     };
                 }
                 else
@@ -217,7 +230,7 @@ namespace WpfCurveGraph01
 
                     _series = new ISeries[]
                     {
-                        new LineSeries<int> { Values = histogram, Fill = GetColorPaint(SelectedItemHistoCombo.Value.Key), Stroke = null, GeometryFill = null, GeometryStroke = null },
+                        new LineSeries<int> { Values = histogram, Fill = GetColorPaint(SelectedItemHistoCombo.Value.Key), Stroke = null, GeometryFill = null, GeometryStroke = null, LineSmoothness = 1 },
                     };
                 }
             }
@@ -251,36 +264,15 @@ namespace WpfCurveGraph01
 
             int minValue = histogram.Min();
             int maxValue = histogram.Max();
-
+            double range = maxValue - minValue;
+            if (range == 0) range = 1;
 
             for (int i = 0; i < histogram.Length; i++)
             {
-                //histogram[i] = histogram[i] / 1000;
-                histogram[i] = (int)(((double)(histogram[i] - minValue) / (maxValue - minValue)) * 255);
+                histogram[i] = (int)(((double)(histogram[i] - minValue) / range) * 255);
             }
 
             return histogram;
-        }
-
-        private SolidColorPaint GetColorPaint(int colorOffset)
-        {
-            SolidColorPaint solidColor = new SolidColorPaint(SKColors.Red);
-
-            switch (colorOffset)
-            {
-                case 0:
-                    solidColor = new SolidColorPaint(SKColors.Blue);
-                    break;
-                case 1:
-                    solidColor = new SolidColorPaint(SKColors.Green);
-                    break;
-                default:
-                case 2:
-                    solidColor = new SolidColorPaint(SKColors.Red);
-                    break;
-            }
-
-            return solidColor;
         }
 
         private string GetPixelFormat(WriteableBitmap bitmap)
@@ -328,6 +320,27 @@ namespace WpfCurveGraph01
                 },
                 _ => throw new ArgumentException("지원되지 않는 픽셀 포맷입니다.")
             };
+        }
+
+        private SolidColorPaint GetColorPaint(int colorOffset)
+        {
+            SolidColorPaint solidColor = new SolidColorPaint(SKColors.Red);
+
+            switch (colorOffset)
+            {
+                case 0:
+                    solidColor = new SolidColorPaint(SKColors.Blue);
+                    break;
+                case 1:
+                    solidColor = new SolidColorPaint(SKColors.Green);
+                    break;
+                default:
+                case 2:
+                    solidColor = new SolidColorPaint(SKColors.Red);
+                    break;
+            }
+
+            return solidColor;
         }
 
     }

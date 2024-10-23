@@ -5,11 +5,13 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfCurveGraph01", "WpfCurveGraph01\WpfCurveGraph01.csproj", "{92B75098-9E3E-43EC-BD38-CF97D32D970F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{77BC114D-11A7-41EF-9549-BD4B100CBD4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{77BC114D-11A7-41EF-9549-BD4B100CBD4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test02", "Test02\Test02.csproj", "{BA2548E0-A382-4B23-9529-043734ED426F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test02", "Test02\Test02.csproj", "{BA2548E0-A382-4B23-9529-043734ED426F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPoinOnClick", "TestPoinOnClick\TestPoinOnClick.csproj", "{CA9B2A8C-5CDB-427C-A0C7-B41259F3314A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestPoinOnClick", "TestPoinOnClick\TestPoinOnClick.csproj", "{CA9B2A8C-5CDB-427C-A0C7-B41259F3314A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCurve01", "TestCurve01\TestCurve01.csproj", "{13941DA6-2DF1-4705-800B-B08847BC3183}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{CA9B2A8C-5CDB-427C-A0C7-B41259F3314A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA9B2A8C-5CDB-427C-A0C7-B41259F3314A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA9B2A8C-5CDB-427C-A0C7-B41259F3314A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13941DA6-2DF1-4705-800B-B08847BC3183}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13941DA6-2DF1-4705-800B-B08847BC3183}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13941DA6-2DF1-4705-800B-B08847BC3183}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13941DA6-2DF1-4705-800B-B08847BC3183}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
