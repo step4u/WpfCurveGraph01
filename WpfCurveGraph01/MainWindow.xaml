@@ -74,7 +74,9 @@
                         AnimationsSpeed="0:0:0"
                         EasingFunction="{x:Null}"
                         DrawMargin="{Binding DrawMarginCurveHistogram}"
-                        DrawMarginFrame="{Binding DrawMarginFrameCurve}">
+                        DrawMarginFrame="{Binding DrawMarginFrameCurve}"
+                        ChartPointPointerDown="CartesianChart_ChartPointPointerDown"
+                        >
                     </lvc1:CartesianChart>
                 </Grid>
             </Border>

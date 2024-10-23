@@ -32,5 +32,10 @@ namespace WpfCurveGraph01
 
             vmodel.SelectionChangedCurveCombo(sender, e);
         }
+
+        private void CartesianChart_ChartPointPointerDown(LiveChartsCore.Kernel.Sketches.IChartView chart, LiveChartsCore.Kernel.ChartPoint point)
+        {
+
+        }
     }
 }
