@@ -13,17 +13,72 @@ namespace Test
 {
     internal class MainWindowViewModel: ObservableObject
     {
-        public ISeries[] Series { get; set; } =
-    {
-        new LineSeries<double>
+        Random ran = new Random();
+
+        public MainWindowViewModel()
         {
-            Values = new double[] { 0, 3, 5, 3, 4, 6 },
-            Fill = new SolidColorPaint(SKColors.CornflowerBlue),
-            Stroke = null,
-            GeometryFill = null,
-            GeometryStroke = null
+            XAxes = new Axis[]
+            {
+                new Axis
+                {
+                    IsVisible = true,
+                    MinLimit = 0,
+                    MaxLimit = 255,
+                    LabelsPaint = new SolidColorPaint(SKColors.Transparent),
+                    Labels = new List<string>(),
+                    AnimationsSpeed = TimeSpan.Zero
+                },
+            };
+
+            YAxes = new Axis[]
+            {
+                new Axis
+                {
+                    IsVisible = false,
+                    MinLimit = 0,
+                    MaxLimit = 255,
+                    LabelsPaint = new SolidColorPaint(SKColors.Transparent),
+                    Labels = new List<string>(),
+                    AnimationsSpeed = TimeSpan.Zero
+                },
+            };
+
+
+            int[] seriesValues = new int[256];
+
+            for (int i = 0; i < seriesValues.Length; i++)
+            {
+                var rnum = (int)ran.NextInt64(0, 255);
+                seriesValues[i] = rnum;
+            }
+
+
+            var _series = new ISeries[]
+            {
+                new LineSeries<int>
+                {
+                    Values = seriesValues,
+                    Fill = new SolidColorPaint(SKColors.CornflowerBlue),
+                    Stroke = null,
+                    GeometryFill = null,
+                    GeometryStroke = null
+                }
+            };
+
+            Series = _series;
         }
-    };
+
+        public ISeries[] series;
+        public ISeries[] Series
+        {
+            get => series;
+            set { SetProperty(ref series, value); }
+        }
+
+
+        public Axis[] XAxes { get; set; }
+
+        public Axis[] YAxes { get; set; }
 
         // Creates a gray background and border in the draw margin.
         public DrawMarginFrame DrawMarginFrame => new()
