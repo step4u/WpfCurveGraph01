@@ -1,20 +1,21 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using Telerik.Windows.Data;
 
 namespace WpfCurveGraph02
 {
     public class ClosestPointFinder
     {
-        public RadObservableCollection<Point> PointCollections { get; set; }
+        public ObservableCollection<Point> PointCollections { get; set; }
 
         public ClosestPointFinder()
         {
         }
 
-        public Point? FindClosestPoint(Point target)
+        public Point FindClosestPoint(Point target)
         {
             double minDistance = double.MaxValue;
-            Point? closestPoint = null;
+            Point closestPoint = new Point(-1, -1);
 
             foreach (var point in PointCollections)
             {

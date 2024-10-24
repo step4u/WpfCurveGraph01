@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using MathNet.Numerics.Interpolation;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -37,7 +39,8 @@ namespace WpfCurveGraph02
             vmodel.SelectionChangedCurveCombo(sender, e);
         }
 
-        Point? selectedPointScatter = null;
+        bool HasNearPoint = false;
+        Point selectedScatter = new Point(-1, -1);
 
         private void RadCartesianChart_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -48,6 +51,8 @@ namespace WpfCurveGraph02
 
             var channel = vmodel.SelectedItemHistoCombo;
             var curveData = vmodel.SeriesCurve;
+            var scatterData = vmodel.SeriesScatter;
+
             if (curveData != null)
             {
                 var chartPos = e.GetPosition(chart);
@@ -55,15 +60,14 @@ namespace WpfCurveGraph02
                     (int)(Math.Min(1, Math.Max(0, (chartPos.X / chart.ActualWidth))) * 255),
                     (int)(Math.Min(1, Math.Max(0, ((chart.ActualHeight - chartPos.Y) / chart.ActualHeight))) * 255));
 
-                finder.PointCollections = curveData;
-                selectedPointScatter = finder.FindClosestPoint(pos);
+                finder.PointCollections = scatterData;
+                selectedScatter = finder.FindClosestPoint(pos);
 
                 curveIsDragging = true;
                 chart.CaptureMouse();
             }
         }
-
-        bool HasNearPoint = false;
+        
         private void RadCartesianChart_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             var chart = sender as RadCartesianChart;
@@ -85,6 +89,19 @@ namespace WpfCurveGraph02
                 Mouse.OverrideCursor = Cursors.Cross;
 
                 HasNearPoint = true;
+
+                var idx = scatterData.IndexOf(selectedScatter);
+                if (idx > -1)
+                {
+                    scatterData[idx] = curPoint;
+
+
+                    UpdateCurve(scatterData, curveData);
+
+                    //UpdateCurve2(selectedScatter, curPoint);
+
+                    selectedScatter = curPoint;
+                }
             }
             else
             {
@@ -126,7 +143,7 @@ namespace WpfCurveGraph02
 
             if (!curveIsDragging) return;
 
-            selectedPointScatter = null;
+            selectedScatter = new Point(-1, -1);
             curveIsDragging = false;
             HasNearPoint = false;
         }
@@ -197,5 +214,31 @@ namespace WpfCurveGraph02
 
             return splinePoints;
         }
+
+        private void UpdateCurve(ObservableCollection<Point> scatters, ObservableCollection<Point> curves)
+        {
+            double[] xValues = scatters.Select(p => (double)p.X).ToArray();
+            double[] yValues = scatters.Select(p => (double)p.Y).ToArray();
+
+            var spline = CubicSpline.InterpolateNatural(xValues, yValues);
+
+            var integerPoints = new ObservableCollection<Point>();
+
+            for (int x = 0; x <= 255; x++)
+            {
+                double y = spline.Interpolate(x);
+                integerPoints.Add(new Point(x, (int)y));
+                curves[x] = new Point(x, (int)y);
+            }
+
+            //vmodel.SeriesCurve = integerPoints;
+        }
+
+        private void UpdateCurve2(Point oPoint, Point nPoint)
+        {
+            var idx = vmodel.SeriesCurve.IndexOf(oPoint);
+            vmodel.SeriesCurve[idx] = nPoint;
+        }
+
     }
 }

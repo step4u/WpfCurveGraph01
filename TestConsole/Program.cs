@@ -4,16 +4,16 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        var points = new List<Tuple<double, double>>()
+        var points = new List<Tuple<int, int>>()
         {
-            Tuple.Create(0.0, 0.0),
-            Tuple.Create(150.0, 200.0),
-            Tuple.Create(255.0, 10.0)
+            Tuple.Create(0, 0),
+            Tuple.Create(150, 200),
+            Tuple.Create(255, 12)
         };
 
         // X와 Y 배열 생성
-        double[] xValues = { 3, 150, 253 };
-        double[] yValues = { 5, 200, 11 };
+        double[] xValues = points.Select(p => (double)p.Item1).ToArray();
+        double[] yValues = points.Select(p => (double)p.Item2).ToArray();
 
         // Cubic Spline 보간 생성
         var spline = CubicSpline.InterpolateNatural(xValues, yValues);

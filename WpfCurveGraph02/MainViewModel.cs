@@ -44,8 +44,8 @@ namespace WpfCurveGraph02
             set { SetProperty(ref seriesCurveGuide, value); }
         }
 
-        private RadObservableCollection<Point> seriesCurve;
-        public RadObservableCollection<Point> SeriesCurve
+        private ObservableCollection<Point> seriesCurve;
+        public ObservableCollection<Point> SeriesCurve
         {
             get => seriesCurve;
             set { SetProperty(ref seriesCurve, value); }
@@ -75,16 +75,27 @@ namespace WpfCurveGraph02
                 curvePoints.Add(i);
 
             seriesCurveGuide = curvePoints.ToArray();
-            SeriesCurve  = new(curvePoints.Select((x, index) =>
+            SeriesCurve = new(curvePoints.Select((x, index) =>
             {
                 return new Point(index, x);
             }));
 
+            //Random ran = new Random();
+
+            //ObservableCollection<Point> curves = new ObservableCollection<Point>();
+
+            //for (int i = 0; i < 256; i++)
+            //{
+            //    curves.Add(new Point(i, ran.Next(0, 255)));
+            //}
+
+            //SeriesCurve = curves;
+
             SeriesScatter = new ObservableCollection<Point>()
             {
                 { new Point(0, 0) },
-                { new Point(150, 200) },
-                { new Point(255, 10) }
+                { new Point(128, 128) },
+                { new Point(255, 255) }
             };
         }
 

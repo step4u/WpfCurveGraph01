@@ -90,11 +90,13 @@
                                                         MaxHeight="255"/>
                                 </telerik:AreaSeries.VerticalAxis>
                             </telerik:AreaSeries>
+                            
                             <telerik:LineSeries ItemsSource="{Binding SeriesCurveGuide}"
                                                 CategoryBinding="X"
                                                 ValueBinding="Y"
                                                 Stroke="Black"
                                                 StrokeThickness="1"/>
+
                         </telerik:RadCartesianChart.Series>
                     </telerik:RadCartesianChart>
 
@@ -119,17 +121,17 @@
                                                 Maximum="255"/>
                         </telerik:RadCartesianChart.VerticalAxis>
                         <telerik:RadCartesianChart.Series>
-                            <telerik:ScatterSplineSeries ItemsSource="{Binding SeriesScatter}"
-                                                         Stroke="Blue"
-                                                         StrokeThickness="1"
-                                                         XValueBinding="X"
-                                                         YValueBinding="Y">
-                                <telerik:ScatterSplineSeries.PointTemplate>
+
+                            <telerik:ScatterLineSeries ItemsSource="{Binding SeriesCurve}">
+                            </telerik:ScatterLineSeries>
+
+                            <telerik:ScatterPointSeries ItemsSource="{Binding SeriesScatter}">
+                                <telerik:ScatterPointSeries.PointTemplate>
                                     <DataTemplate>
                                         <Rectangle Width="5" Height="5" Fill="White" Stroke="Black" StrokeThickness="1" SnapsToDevicePixels="True" />
                                     </DataTemplate>
-                                </telerik:ScatterSplineSeries.PointTemplate>
-                            </telerik:ScatterSplineSeries>
+                                </telerik:ScatterPointSeries.PointTemplate>
+                            </telerik:ScatterPointSeries>
                         </telerik:RadCartesianChart.Series>
                     </telerik:RadCartesianChart>
                 </Grid>
