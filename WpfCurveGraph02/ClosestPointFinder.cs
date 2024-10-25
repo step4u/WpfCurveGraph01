@@ -12,10 +12,10 @@ namespace WpfCurveGraph02
         {
         }
 
-        public Point FindClosestPoint(Point target)
+        public Point? FindClosestPoint(Point target, double minDis)
         {
-            double minDistance = double.MaxValue;
-            Point closestPoint = new Point(-1, -1);
+            double minDistance = minDis  + 2;
+            Point? closestPoint = null;
 
             foreach (var point in PointCollections)
             {

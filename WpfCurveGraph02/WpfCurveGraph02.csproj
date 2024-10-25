@@ -6,199 +6,41 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="04.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="04.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
   <ItemGroup>
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
 	  <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
+	  <PackageReference Include="SkiaSharp" Version="2.88.8" />
+	  <PackageReference Include="System.Drawing.Common" Version="8.0.10" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Telerik.Documents.SpreadsheetStreaming">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Documents.SpreadsheetStreaming.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Pivot.Core">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Pivot.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Pivot.DataProviders.Adomd">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Pivot.DataProviders.Adomd.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Pivot.DataProviders.Queryable">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Pivot.DataProviders.Queryable.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Pivot.DataProviders.Xmla">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Pivot.DataProviders.Xmla.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Cloud">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Cloud.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Cloud.Controls">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Cloud.Controls.dll</HintPath>
-    </Reference>
     <Reference Include="Telerik.Windows.Controls">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.dll</HintPath>
+      <HintPath>..\..\..\..\Libs\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Controls.Chart">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.Chart.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.Chart.Direct2D">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.Chart.Direct2D.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.ConversationalUI">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.ConversationalUI.dll</HintPath>
+      <HintPath>..\..\..\..\Libs\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.Chart.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Controls.Data">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.Data.dll</HintPath>
+      <HintPath>..\..\..\..\Libs\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.Data.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Controls.DataVisualization">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.DataVisualization.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.Diagrams">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.Diagrams.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.Diagrams.Extensions">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.Diagrams.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.Diagrams.Ribbon">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.Diagrams.Ribbon.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.Docking">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.Docking.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.Expressions">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.Expressions.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.FileDialogs">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.FileDialogs.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.FixedDocumentViewers">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.FixedDocumentViewers.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.FixedDocumentViewersUI">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.FixedDocumentViewersUI.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.GanttView">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.GanttView.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.GridView">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.GridView.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.GridView.Export">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.GridView.Export.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.GridView.SpreadsheetStreamingExport">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.GridView.SpreadsheetStreamingExport.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.ImageEditor">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.ImageEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.Input">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.Input.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.Media">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.Media.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.Navigation">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.Navigation.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.Pivot">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.Pivot.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.PivotFieldList">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.PivotFieldList.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.RibbonView">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.RibbonView.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.RichTextBoxUI">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.RichTextBoxUI.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.ScheduleView">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.ScheduleView.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.Spreadsheet">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.Spreadsheet.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.SpreadsheetUI">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.SpreadsheetUI.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Controls.VirtualGrid">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.VirtualGrid.dll</HintPath>
+      <HintPath>..\..\..\..\Libs\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.DataVisualization.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Data">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Diagrams.Core">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Diagrams.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Documents.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents.Core">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Documents.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents.Fixed">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Documents.Fixed.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents.Flow">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Documents.Flow.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents.Flow.FormatProviders.Pdf">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Documents.Flow.FormatProviders.Pdf.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents.FormatProviders.Html">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Documents.FormatProviders.Html.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents.FormatProviders.MsRichTextBoxXaml">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Documents.FormatProviders.MsRichTextBoxXaml.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents.FormatProviders.OpenXml">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Documents.FormatProviders.OpenXml.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents.FormatProviders.Pdf">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Documents.FormatProviders.Pdf.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents.FormatProviders.Rtf">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Documents.FormatProviders.Rtf.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents.FormatProviders.Xaml">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Documents.FormatProviders.Xaml.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents.Proofing">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Documents.Proofing.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents.Proofing.DataGrid">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Documents.Proofing.DataGrid.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents.Proofing.Dictionaries.En-US">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Documents.Proofing.Dictionaries.En-US.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents.Proofing.RadGridView">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Documents.Proofing.RadGridView.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents.Spreadsheet">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Documents.Spreadsheet.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.MediaFoundation">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.MediaFoundation.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.PersistenceFramework">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.PersistenceFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Scheduling.Core">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Scheduling.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Zip">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Zip.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Windows.Zip.Extensions">
-      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Zip.Extensions.dll</HintPath>
+      <HintPath>..\..\..\..\Libs\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Data.dll</HintPath>
     </Reference>
   </ItemGroup>
 

@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
+using SkiaSharp;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -58,6 +60,21 @@ namespace WpfCurveGraph02
             set { SetProperty(ref seriesScatter, value); }
         }
 
+        private WriteableBitmap? selectedBitmap = null;
+        private byte[]? selectedBitmapBuffer = null;
+
+        public byte[]? SelectedImageBuffer
+        {
+            get => selectedBitmapBuffer;
+        }
+
+        private BitmapImage? selectedImageSource = null;
+        public BitmapImage? SelectedImageSource
+        {
+            get => selectedImageSource;
+            set { SetProperty(ref selectedImageSource, value); }
+        }
+
         private void Init()
         {
             HistoComboItems = new Dictionary<int, string>
@@ -99,7 +116,6 @@ namespace WpfCurveGraph02
             };
         }
 
-        private WriteableBitmap? selectedBitmap = null;
         [RelayCommand]
         private void OpenImage()
         {
@@ -110,10 +126,23 @@ namespace WpfCurveGraph02
             {
                 try
                 {
-                    BitmapImage bitmapImage = new BitmapImage(new Uri(openFileDialog.FileName));
+                    using (var fs = File.Open(openFileDialog.FileName, FileMode.Open, FileAccess.Read))
+                    {
+                        selectedBitmapBuffer = new byte[fs.Length];
+                        fs.Read(selectedBitmapBuffer, 0, selectedBitmapBuffer.Length);
+                    }
+
+                    BitmapImage bitmapImage = new BitmapImage();
+                    bitmapImage.BeginInit();
+                    bitmapImage.StreamSource = new MemoryStream(selectedBitmapBuffer);
+                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmapImage.EndInit();
+                    bitmapImage.Freeze();
+
                     WriteableBitmap writableBitmap = new WriteableBitmap(bitmapImage);
 
                     selectedBitmap = writableBitmap;
+                    SelectedImageSource = bitmapImage;
 
                     UpdateHistogram();
                 }
