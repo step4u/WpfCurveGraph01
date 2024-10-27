@@ -22,6 +22,7 @@ using System.Windows.Threading;
 using Telerik.Windows.Controls;
 using Color = System.Windows.Media.Color;
 using Point = System.Windows.Point;
+using MathNet.Numerics.LinearAlgebra.Factorization;
 
 namespace WpfCurveGraph02
 {
@@ -180,7 +181,8 @@ namespace WpfCurveGraph02
                     //Thread t = new Thread(new ParameterizedThreadStart(UpdateCurve));
                     //t.Start((tuple.Item1, tuple.Item2));
 
-                    UpdateCurve(scatterData, curveData);
+                    byte[] lut = UpdateCurve(scatterData, curveData);
+                    ApplyCurveFilter2(lut);
                 }
             }
             else
@@ -312,7 +314,7 @@ namespace WpfCurveGraph02
             return splinePoints;
         }
 
-        private void UpdateCurve(ObservableCollection<Point> scatters, ObservableCollection<Point> curves)
+        private byte[] UpdateCurve(ObservableCollection<Point> scatters, ObservableCollection<Point> curves)
         {
             //Dispatcher.Invoke(DispatcherPriority.Normal, new Action(async delegate
             //{
@@ -324,7 +326,6 @@ namespace WpfCurveGraph02
 
             var spline = CubicSpline.InterpolateNatural(xValues, yValues);
 
-            //var integerPoints = new ObservableCollection<Point>();
             byte[] lut = new byte[256];
 
             for (int x = 0; x <= 255; x++)
@@ -332,29 +333,12 @@ namespace WpfCurveGraph02
                 double y = spline.Interpolate(x);
                 y = Math.Clamp(y, 0, 255);
 
-                //integerPoints.Add(new Point(x, (int)y));
-
                 curves![x] = new Point(x, (int)y);
 
                 lut[x] = (byte)(int)y;
             }
 
-            ApplyCurveFilter2(lut);
-
-            //Tuple<Bitmap, byte[]> tuple = Tuple.Create(new Bitmap(new MemoryStream(vmodel.SelectedImageBuffer!)), lut);
-            //Thread t = new Thread(new ParameterizedThreadStart(ApplyCurveFilter));
-            //t.IsBackground = true;
-            //t.Start((tuple.Item1, tuple.Item2));
-
-
-            ////using var inputImage = SKBitmap.Decode(SKData.CreateCopy(vmodel.SelectedImageBuffer));
-            //Task.Run(() => ApplyCurveFilterAsync(lut));
-
-            ////// 5. 조정된 이미지 저장
-            ////using var image = SKImage.FromBitmap(adjustedImage);
-            //curveLayer.Source = ToBitmapSource(adjustedImage);
-
-            //return lut;
+            return lut;
         }
 
         private Bitmap CreateSaturationLayer(int width, int height, double saturation)
@@ -457,60 +441,60 @@ namespace WpfCurveGraph02
                             //bufferPtr[index + 1] = color.G;
                             //bufferPtr[index + 2] = color.R;
 
-                            RGBToHSV(r, g, b, out double hue, out double saturation, out double value);
+                            //RGBToHSV(r, g, b, out double hue, out double saturation, out double value);
 
-                            int curveIndex = (int)(saturation * 255);
-                            int adjustedSaturation = lut[Math.Clamp(curveIndex, 0, 255)];
-                            saturation = adjustedSaturation / 255.0;
+                            //int curveIndex = (int)(saturation * 255);
+                            //int adjustedSaturation = lut[Math.Clamp(curveIndex, 0, 255)];
+                            //saturation = adjustedSaturation / 255.0;
 
-                            // HSV to RGB 직접 변환
-                            double c = value * saturation;
-                            double xx = c * (1 - Math.Abs((hue / 60) % 2 - 1));
-                            double m = value - c;
+                            //// HSV to RGB 직접 변환
+                            //double c = value * saturation;
+                            //double xx = c * (1 - Math.Abs((hue / 60) % 2 - 1));
+                            //double m = value - c;
 
-                            double rPrime = 0, gPrime = 0, bPrime = 0;
+                            //double rPrime = 0, gPrime = 0, bPrime = 0;
 
-                            if (hue < 60)
-                            {
-                                rPrime = c;
-                                gPrime = xx;
-                                bPrime = 0;
-                            }
-                            else if (hue < 120)
-                            {
-                                rPrime = xx;
-                                gPrime = c;
-                                bPrime = 0;
-                            }
-                            else if (hue < 180)
-                            {
-                                rPrime = 0;
-                                gPrime = c;
-                                bPrime = xx;
-                            }
-                            else if (hue < 240)
-                            {
-                                rPrime = 0;
-                                gPrime = xx;
-                                bPrime = c;
-                            }
-                            else if (hue < 300)
-                            {
-                                rPrime = xx;
-                                gPrime = 0;
-                                bPrime = c;
-                            }
-                            else
-                            {
-                                rPrime = c;
-                                gPrime = 0;
-                                bPrime = xx;
-                            }
+                            //if (hue < 60)
+                            //{
+                            //    rPrime = c;
+                            //    gPrime = xx;
+                            //    bPrime = 0;
+                            //}
+                            //else if (hue < 120)
+                            //{
+                            //    rPrime = xx;
+                            //    gPrime = c;
+                            //    bPrime = 0;
+                            //}
+                            //else if (hue < 180)
+                            //{
+                            //    rPrime = 0;
+                            //    gPrime = c;
+                            //    bPrime = xx;
+                            //}
+                            //else if (hue < 240)
+                            //{
+                            //    rPrime = 0;
+                            //    gPrime = xx;
+                            //    bPrime = c;
+                            //}
+                            //else if (hue < 300)
+                            //{
+                            //    rPrime = xx;
+                            //    gPrime = 0;
+                            //    bPrime = c;
+                            //}
+                            //else
+                            //{
+                            //    rPrime = c;
+                            //    gPrime = 0;
+                            //    bPrime = xx;
+                            //}
 
-                            // 변환된 값을 0~255로 변환
-                            bufferPtr[index] = (byte)((bPrime + m) * 255);
-                            bufferPtr[index + 1] = (byte)((gPrime + m) * 255);
-                            bufferPtr[index + 2] = (byte)((rPrime + m) * 255);
+                            //// 변환된 값을 0~255로 변환
+                            //bufferPtr[index] = (byte)((bPrime + m) * 255);
+                            //bufferPtr[index + 1] = (byte)((gPrime + m) * 255);
+                            //bufferPtr[index + 2] = (byte)((rPrime + m) * 255);
 
                         }
                     });
