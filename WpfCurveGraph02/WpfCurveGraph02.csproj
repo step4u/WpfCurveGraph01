@@ -28,19 +28,19 @@
 
   <ItemGroup>
     <Reference Include="Telerik.Windows.Controls">
-      <HintPath>..\..\..\..\Libs\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.dll</HintPath>
+      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Controls.Chart">
-      <HintPath>..\..\..\..\Libs\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.Chart.dll</HintPath>
+      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.Chart.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Controls.Data">
-      <HintPath>..\..\..\..\Libs\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.Data.dll</HintPath>
+      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.Data.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Controls.DataVisualization">
-      <HintPath>..\..\..\..\Libs\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.DataVisualization.dll</HintPath>
+      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Controls.DataVisualization.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Data">
-      <HintPath>..\..\..\..\Libs\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Data.dll</HintPath>
+      <HintPath>..\..\..\..\lib\Telerik UI for WPF R2 2019\Binaries\NetCore\Telerik.Windows.Data.dll</HintPath>
     </Reference>
   </ItemGroup>
 

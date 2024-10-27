@@ -11,9 +11,9 @@ using Telerik.Windows.Data;
 
 namespace WpfCurveGraph02
 {
-    public partial class MainViewModel : ObservableObject
+    public partial class Window1ViewModel : ObservableObject
     {
-        public MainViewModel()
+        public Window1ViewModel()
         {
             Init();
         }

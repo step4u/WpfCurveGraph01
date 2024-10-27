@@ -1,14 +1,15 @@
 ﻿using MathNet.Numerics.Interpolation;
-using MathNet.Numerics.LinearAlgebra.Factorization;
 using SkiaSharp;
-using System.Collections;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Drawing;
 using System.Drawing.Imaging;
+using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,28 +17,22 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using System.Xml.XPath;
-using Telerik.Charting;
 using Telerik.Windows.Controls;
-using Telerik.Windows.Controls.DataVisualization.Map.BingRest;
-using Telerik.Windows.Controls.Map;
 using Color = System.Windows.Media.Color;
 using Point = System.Windows.Point;
 
 namespace WpfCurveGraph02
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Window1 : Window
     {
         ClosestPointFinder finder = new ClosestPointFinder();
 
-        public MainWindow()
+        public Window1()
         {
             InitializeComponent();
         }
@@ -83,7 +78,7 @@ namespace WpfCurveGraph02
 
             //width = bitmap.Width;
             //height = bitmap.Height;
-           
+
 
             if (curveData != null)
             {
@@ -121,7 +116,7 @@ namespace WpfCurveGraph02
                 {
                     prevScatter = scatterData.LastOrDefault(x => x.X < selectedScatter.Value.X);
                     if (prevScatter == null)
-                        prevScatter = new Point(0,0);
+                        prevScatter = new Point(0, 0);
 
                     nextScatter = scatterData.FirstOrDefault(x => x.X > selectedScatter.Value.X);
                     if (nextScatter == null)
@@ -159,7 +154,7 @@ namespace WpfCurveGraph02
 
                 HasNearPoint = true;
 
-                var idx = scatterData.IndexOf(selectedScatter ?? new Point(-1,-1));
+                var idx = scatterData.IndexOf(selectedScatter ?? new Point(-1, -1));
                 if (idx > -1)
                 {
                     if (curPoint.X < prevScatter!.Value.X + detectDistance)
