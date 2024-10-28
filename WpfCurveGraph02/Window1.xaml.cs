@@ -23,6 +23,7 @@ using Telerik.Windows.Controls;
 using Color = System.Windows.Media.Color;
 using Point = System.Windows.Point;
 using MathNet.Numerics.LinearAlgebra.Factorization;
+using System.Windows.Interop;
 
 namespace WpfCurveGraph02
 {
@@ -257,7 +258,6 @@ namespace WpfCurveGraph02
             // If no smaller point is found, return the index to add at the end.
             return list.Count;
         }
-
 
         private List<Point> GetSplinePoints(ObservableCollection<Point> data)
         {

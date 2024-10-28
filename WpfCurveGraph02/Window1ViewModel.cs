@@ -39,6 +39,13 @@ namespace WpfCurveGraph02
             set { SetProperty(ref seriesHisto, value); }
         }
 
+        private Brush areaColor = Brushes.Magenta;
+        public Brush AreaColor
+        {
+            get => areaColor;
+            set { SetProperty(ref areaColor, value); }
+        }
+
         private int[] seriesCurveGuide;
         public int[] SeriesCurveGuide
         {
@@ -53,12 +60,29 @@ namespace WpfCurveGraph02
             set { SetProperty(ref seriesCurve, value); }
         }
 
+        internal ObservableCollection<Point> seriesCurveRGB;
+
+        internal ObservableCollection<Point> seriesCurveR;
+
+        internal ObservableCollection<Point> seriesCurveG;
+
+        internal ObservableCollection<Point> seriesCurveB;
+
+        
         private ObservableCollection<Point> seriesScatter;
         public ObservableCollection<Point> SeriesScatter
         {
             get => seriesScatter;
             set { SetProperty(ref seriesScatter, value); }
         }
+
+        internal ObservableCollection<Point> seriesScatterRGB;
+
+        internal ObservableCollection<Point> seriesScatterR;
+
+        internal ObservableCollection<Point> seriesScatterG;
+
+        internal ObservableCollection<Point> seriesScatterB;
 
         private WriteableBitmap? selectedWritableBitmap = null;
         public WriteableBitmap? SelectedWritableBitmap
@@ -91,20 +115,36 @@ namespace WpfCurveGraph02
                 { 0, "BLUE" },
             };
 
-            selectedItemHistoCombo = HistoComboItems.FirstOrDefault();
+            SelectedItemHistoCombo = HistoComboItems.FirstOrDefault();
 
             List<int> curvePoints = new();
             for (int i = 0; i < 256; i++)
                 curvePoints.Add(i);
 
             seriesCurveGuide = curvePoints.ToArray();
-            SeriesCurve = new(curvePoints.Select((x, index) =>
+            seriesCurveRGB = new(curvePoints.Select((x, index) =>
             {
                 return new Point(index, x);
             }));
 
-            //Random ran = new Random();
+            seriesCurveR = new(curvePoints.Select((x, index) =>
+            {
+                return new Point(index, x);
+            }));
 
+            seriesCurveG = new(curvePoints.Select((x, index) =>
+            {
+                return new Point(index, x);
+            }));
+
+            seriesCurveB = new(curvePoints.Select((x, index) =>
+            {
+                return new Point(index, x);
+            }));
+
+            SeriesCurve = seriesCurveRGB;
+
+            //Random ran = new Random();
             //ObservableCollection<Point> curves = new ObservableCollection<Point>();
 
             //for (int i = 0; i < 256; i++)
@@ -114,12 +154,31 @@ namespace WpfCurveGraph02
 
             //SeriesCurve = curves;
 
-            SeriesScatter = new ObservableCollection<Point>()
+            seriesScatterRGB = new ObservableCollection<Point>()
             {
                 { new Point(0, 0) },
-                { new Point(128, 128) },
                 { new Point(255, 255) }
             };
+
+            seriesScatterR = new ObservableCollection<Point>()
+            {
+                { new Point(0, 0) },
+                { new Point(255, 255) }
+            };
+
+            seriesScatterG = new ObservableCollection<Point>()
+            {
+                { new Point(0, 0) },
+                { new Point(255, 255) }
+            };
+
+            seriesScatterB = new ObservableCollection<Point>()
+            {
+                { new Point(0, 0) },
+                { new Point(255, 255) }
+            };
+
+            SeriesScatter = seriesScatterRGB;
         }
 
         [RelayCommand]
@@ -174,11 +233,26 @@ namespace WpfCurveGraph02
                 {
                     var histo = GetHistogramRGB(SelectedWritableBitmap);
                     SeriesHisto = histo;
+                    AreaColor = Brushes.LightGray;
+
+                    SeriesCurve = seriesCurveRGB;
+                    SeriesScatter = seriesScatterRGB;
                 }
                 else
                 {
                     var histo = GetHistogram(SelectedWritableBitmap, SelectedItemHistoCombo.Value.Key);
                     SeriesHisto = histo;
+                    AreaColor = SelectedItemHistoCombo.Value.Key == 2 ? Brushes.Pink
+                        : SelectedItemHistoCombo.Value.Key == 1 ? Brushes.LightGreen
+                        : SelectedItemHistoCombo.Value.Key == 0 ? Brushes.SkyBlue : Brushes.LightGray;
+
+                    SeriesCurve = SelectedItemHistoCombo.Value.Key == 2 ? seriesCurveR
+                        : SelectedItemHistoCombo.Value.Key == 1 ? seriesCurveG
+                        : SelectedItemHistoCombo.Value.Key == 0 ? seriesCurveB : seriesCurveRGB;
+
+                    SeriesScatter = SelectedItemHistoCombo.Value.Key == 2 ? seriesScatterR
+                        : SelectedItemHistoCombo.Value.Key == 1 ? seriesScatterG
+                        : SelectedItemHistoCombo.Value.Key == 0 ? seriesScatterB : seriesScatterRGB;
                 }
             }
         }
