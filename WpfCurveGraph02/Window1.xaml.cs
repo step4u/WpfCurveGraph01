@@ -73,6 +73,8 @@ namespace WpfCurveGraph02
             var curveData = vmodel.SeriesCurve;
             var scatterData = vmodel.SeriesScatter;
 
+            //vmodel.SelectedWritableBitmap.Lock();
+
             //using (var stream = new SKMemoryStream(vmodel.SelectedImageBuffer))
             //{
             //    bitmap = SKBitmap.Decode(stream);
@@ -183,7 +185,14 @@ namespace WpfCurveGraph02
                     //t.Start((tuple.Item1, tuple.Item2));
 
                     byte[] lut = UpdateCurve(scatterData, curveData);
-                    ApplyCurveFilter2(lut);
+
+
+                    //ApplyCurveFilter2(lut);
+
+                    //ImageUtil.ApplyFilter2Image(vmodel.OriWritableBitmap, lut, vmodel.SelectedItemHistoCombo.Value.Key);
+                    //ImageUtil.ApplyFilter2Image2(vmodel.OriWritableBitmap, vmodel.SelectedWritableBitmap, lut);
+                    ImageUtil.ApplyFilter2Image3(vmodel.OriWritableBitmap, vmodel.SelectedWritableBitmap, lut);
+
                 }
             }
             else
@@ -231,6 +240,8 @@ namespace WpfCurveGraph02
             HasNearPoint = false;
 
             bitmap = null;
+
+            //vmodel.SelectedWritableBitmap.Unlock();
         }
 
         private void btnGetPoints_Click(object sender, RoutedEventArgs e)
@@ -372,6 +383,9 @@ namespace WpfCurveGraph02
 
         private void ApplyCurveFilter2(byte[] lut)
         {
+            if (vmodel.SelectedWritableBitmap == null)
+                return;
+
             vmodel.SelectedWritableBitmap!.Lock();
 
             try

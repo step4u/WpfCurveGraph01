@@ -84,6 +84,14 @@ namespace WpfCurveGraph02
 
         internal ObservableCollection<Point> seriesScatterB;
 
+
+        private WriteableBitmap? oriWritableBitmap = null;
+        public WriteableBitmap? OriWritableBitmap
+        {
+            get => oriWritableBitmap;
+            set { SetProperty(ref oriWritableBitmap, value); }
+        }
+
         private WriteableBitmap? selectedWritableBitmap = null;
         public WriteableBitmap? SelectedWritableBitmap
         {
@@ -103,6 +111,13 @@ namespace WpfCurveGraph02
         {
             get => selectedImageSource;
             set { SetProperty(ref selectedImageSource, value); }
+        }
+
+        private byte[]? oriPixels = null;
+        public byte[]? OriPixels
+        {
+            get => oriPixels;
+            set { SetProperty(ref oriPixels, value); }
         }
 
         private void Init()
@@ -197,17 +212,18 @@ namespace WpfCurveGraph02
                         fs.Read(selectedBitmapBuffer, 0, selectedBitmapBuffer.Length);
                     }
 
-                    BitmapImage bitmapImage = new BitmapImage();
-                    bitmapImage.BeginInit();
-                    bitmapImage.StreamSource = new MemoryStream(selectedBitmapBuffer);
-                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmapImage.EndInit();
-                    bitmapImage.Freeze();
+                    BitmapImage bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.StreamSource = new MemoryStream(selectedBitmapBuffer);
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.EndInit();
+                    bitmap.Freeze();
 
-                    WriteableBitmap writableBitmap = new WriteableBitmap(bitmapImage);
+                    SelectedWritableBitmap = new WriteableBitmap(bitmap);
+                    //OriPixels = new byte[bitmap.PixelWidth * bitmap.PixelHeight * 4];
+                    //bitmap.CopyPixels(OriPixels, bitmap.PixelWidth * 4, 0);
 
-                    SelectedWritableBitmap = writableBitmap;
-                    //SelectedImageSource = bitmapImage;
+                    oriWritableBitmap = new WriteableBitmap(bitmap);
 
                     UpdateHistogram();
                 }
@@ -216,6 +232,14 @@ namespace WpfCurveGraph02
                     MessageBox.Show($"Error loading image: {ex.Message}");
                 }
             }
+        }
+
+        [RelayCommand]
+        private void InverseImage()
+        {
+            if (SelectedWritableBitmap == null) return;
+
+            ImageUtil.InverseImage(SelectedWritableBitmap);
         }
 
         internal void SelectionChangedCurveCombo(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
