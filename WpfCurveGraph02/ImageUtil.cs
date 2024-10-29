@@ -174,6 +174,9 @@ namespace WpfCurveGraph02
 
         internal static void ApplyFilter2Image3(WriteableBitmap oBitmap, WriteableBitmap bitmap, byte[] lut, int channel = -1)
         {
+            if (oBitmap == null || bitmap == null)
+                return;
+
             oBitmap.CopyPixels(new Int32Rect(0, 0, oBitmap.PixelWidth, oBitmap.PixelHeight),
                                       bitmap.BackBuffer, bitmap.BackBufferStride * bitmap.PixelHeight,
                                       bitmap.BackBufferStride);
