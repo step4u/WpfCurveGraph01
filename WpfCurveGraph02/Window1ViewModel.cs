@@ -99,6 +99,16 @@ namespace WpfCurveGraph02
             set { SetProperty(ref selectedWritableBitmap, value); }
         }
 
+        private WriteableBitmap? layeredWritableBitmap = null;
+        public WriteableBitmap? LayeredWritableBitmap
+        {
+            get => layeredWritableBitmap;
+            set
+            {
+                SetProperty(ref layeredWritableBitmap, value);
+            }
+        }
+
         private byte[]? selectedBitmapBuffer = null;
 
         public byte[]? SelectedImageBuffer
@@ -223,7 +233,21 @@ namespace WpfCurveGraph02
                     //OriPixels = new byte[bitmap.PixelWidth * bitmap.PixelHeight * 4];
                     //bitmap.CopyPixels(OriPixels, bitmap.PixelWidth * 4, 0);
 
-                    oriWritableBitmap = new WriteableBitmap(bitmap);
+                    OriWritableBitmap = new WriteableBitmap(bitmap);
+
+                    // 빈 값
+                    //int width = oriWritableBitmap.PixelWidth;
+                    //int height = oriWritableBitmap.PixelHeight;
+                    //int stride = width * (oriWritableBitmap.Format.BitsPerPixel / 8);
+                    //byte[] pixelData = new byte[height * stride];
+
+                    //WriteableBitmap deepCopiedBitmap = new WriteableBitmap(width, height, oriWritableBitmap.DpiX, oriWritableBitmap.DpiY, oriWritableBitmap.Format, null);
+                    ////WriteableBitmap deepCopiedBitmap = new WriteableBitmap(width, height, bitmap.DpiX, bitmap.DpiY, bitmap.Format, null);
+                    //deepCopiedBitmap.WritePixels(new Int32Rect(0, 0, width, height), pixelData, stride, 0);
+
+                    //LayeredWritableBitmap = deepCopiedBitmap;
+
+                    LayeredWritableBitmap = CreateTransparentWriteableBitmap(OriWritableBitmap.PixelWidth, OriWritableBitmap.PixelHeight, OriWritableBitmap.DpiX, OriWritableBitmap.DpiY);
 
                     UpdateHistogram();
                 }
@@ -232,6 +256,40 @@ namespace WpfCurveGraph02
                     MessageBox.Show($"Error loading image: {ex.Message}");
                 }
             }
+        }
+
+        private WriteableBitmap CreateTransparentWriteableBitmap(int width, int height, double dpix, double dpiy)
+        {
+            // WriteableBitmap 생성: 너비, 높이, 해상도, 픽셀 포맷, 팔레트 (없으므로 null)
+            WriteableBitmap bitmap = new WriteableBitmap(width, height, dpix, dpiy, PixelFormats.Bgra32, null);
+
+            // 투명 배경을 위해 모든 픽셀을 0으로 설정
+            //bitmap.Lock();
+            //unsafe
+            //{
+            //    // 비트맵의 시작 위치를 가져옴
+            //    IntPtr pBackBuffer = bitmap.BackBuffer;
+            //    int stride = bitmap.BackBufferStride;
+
+            //    // 투명하게 설정 (0으로 채움: BGRA 각각 0, 0, 0, 0)
+            //    for (int y = 0; y < height; y++)
+            //    {
+            //        for (int x = 0; x < width; x++)
+            //        {
+            //            // 각 픽셀을 0으로 설정
+            //            int pixelOffset = y * stride + x * 4;
+            //            *((int*)(pBackBuffer + pixelOffset)) = 0x00000000;
+            //        }
+            //    }
+            //}
+            //bitmap.AddDirtyRect(new Int32Rect(0, 0, width, height));
+            //bitmap.Unlock();
+
+
+            int[] pixels = new int[width * height];
+            bitmap.WritePixels(new Int32Rect(0, 0, width, height), pixels, width * 4, 0);
+
+            return bitmap;
         }
 
         [RelayCommand]

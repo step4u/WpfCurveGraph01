@@ -216,6 +216,46 @@ namespace WpfCurveGraph02
             }
         }
 
+        internal static void ApplyFilter2Image4(WriteableBitmap bitmap, byte[] lut, int channel = -1)
+        {
+            bitmap.Lock();
+
+            try
+            {
+                int width = bitmap.PixelWidth;
+                int height = bitmap.PixelHeight;
+                int stride = bitmap.BackBufferStride;
+                int length = height * stride;
+
+                unsafe
+                {
+                    // BackBuffer에 직접 접근
+                    byte* buffer = (byte*)bitmap.BackBuffer;
+
+                    // 픽셀 데이터 순회 (BGRA 포맷)
+                    for (int i = 0; i < length; i += 4)
+                    {
+                        byte b = lut[buffer[i]];
+                        byte g = lut[buffer[i + 1]];
+                        byte r = lut[buffer[i + 2]];
+                        byte a = lut[buffer[i + 3]];
+
+                        buffer[i] = b;       // B 채널
+                        buffer[i + 1] = g; // G 채널
+                        buffer[i + 2] = r; // R 채널
+                        buffer[i + 3] = a; // 알파 채널
+                    }
+                }
+
+                bitmap.AddDirtyRect(new Int32Rect(0, 0, width, height));
+            }
+            catch (Exception ex)
+            {
+            }
+
+            bitmap.Unlock();
+        }
+
         internal static void ResetImage(WriteableBitmap bitmap)
         {
             int width = bitmap.PixelWidth;

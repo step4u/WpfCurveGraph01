@@ -191,7 +191,9 @@ namespace WpfCurveGraph02
 
                     //ImageUtil.ApplyFilter2Image(vmodel.OriWritableBitmap, lut, vmodel.SelectedItemHistoCombo.Value.Key);
                     //ImageUtil.ApplyFilter2Image2(vmodel.OriWritableBitmap, vmodel.SelectedWritableBitmap, lut);
-                    ImageUtil.ApplyFilter2Image3(vmodel.OriWritableBitmap, vmodel.SelectedWritableBitmap, lut);
+                    
+                    //ImageUtil.ApplyFilter2Image3(vmodel.OriWritableBitmap, vmodel.SelectedWritableBitmap, lut);
+                    ImageUtil.ApplyFilter2Image4(vmodel.LayeredWritableBitmap!, lut);
 
                 }
             }

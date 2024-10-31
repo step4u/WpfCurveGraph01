@@ -42,12 +42,10 @@
             </Grid.ColumnDefinitions>
 
             <Canvas x:Name="canvas" Grid.Column="0" Margin="3">
-                <Viewbox Width="800">
+                <Grid Width="800">
                     <Image x:Name="img" Source="{Binding SelectedWritableBitmap}" RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True"/>
-                </Viewbox>
-                <!--<Viewbox Width="570">
-                <Image x:Name="curveLayer"/>
-            </Viewbox>-->
+                    <Image x:Name="curveLayer" Source="{Binding LayeredWritableBitmap}" RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True"/>
+                </Grid>
             </Canvas>
 
             <Grid Grid.Column="1" VerticalAlignment="Top">
