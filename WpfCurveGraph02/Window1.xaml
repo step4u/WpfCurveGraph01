@@ -41,12 +41,11 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Canvas x:Name="canvas" Grid.Column="0" Margin="3">
+            <ContentControl x:Name="imageContent" Grid.Column="0" Margin="3">
                 <Grid Width="800">
-                    <Image x:Name="img" Source="{Binding SelectedWritableBitmap}" RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True"/>
-                    <Image x:Name="curveLayer" Source="{Binding LayeredWritableBitmap}" RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True"/>
+                    <!--<Image x:Name="img" Source="{Binding SelectedWritableBitmap}" RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True"/>-->
                 </Grid>
-            </Canvas>
+            </ContentControl>
 
             <Grid Grid.Column="1" VerticalAlignment="Top">
                 <Grid.RowDefinitions>

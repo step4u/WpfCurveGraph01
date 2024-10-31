@@ -1,12 +1,17 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
+using QRClassLibrary;
 using SkiaSharp;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Telerik.Windows.Controls;
 using Telerik.Windows.Data;
 
 namespace WpfCurveGraph02
@@ -85,11 +90,11 @@ namespace WpfCurveGraph02
         internal ObservableCollection<Point> seriesScatterB;
 
 
-        private WriteableBitmap? oriWritableBitmap = null;
-        public WriteableBitmap? OriWritableBitmap
+        private WriteableBitmap? originalWritableBitmap = null;
+        public WriteableBitmap? OriginalWritableBitmap
         {
-            get => oriWritableBitmap;
-            set { SetProperty(ref oriWritableBitmap, value); }
+            get => originalWritableBitmap;
+            set { SetProperty(ref originalWritableBitmap, value); }
         }
 
         private WriteableBitmap? selectedWritableBitmap = null;
@@ -99,13 +104,23 @@ namespace WpfCurveGraph02
             set { SetProperty(ref selectedWritableBitmap, value); }
         }
 
-        private WriteableBitmap? layeredWritableBitmap = null;
-        public WriteableBitmap? LayeredWritableBitmap
+        private WriteableBitmap? layerCurveWritableBitmap = null;
+        public WriteableBitmap? LayerCurveWritableBitmap
         {
-            get => layeredWritableBitmap;
+            get => layerCurveWritableBitmap;
             set
             {
-                SetProperty(ref layeredWritableBitmap, value);
+                SetProperty(ref layerCurveWritableBitmap, value);
+            }
+        }
+
+        private WriteableBitmap? layerInverseWritableBitmap = null;
+        public WriteableBitmap? LayerInverseWritableBitmap
+        {
+            get => layerInverseWritableBitmap;
+            set
+            {
+                SetProperty(ref layerInverseWritableBitmap, value);
             }
         }
 
@@ -206,9 +221,13 @@ namespace WpfCurveGraph02
             SeriesScatter = seriesScatterRGB;
         }
 
+
+        Window1? win = null;
         [RelayCommand]
         private void OpenImage()
         {
+            win = Application.Current.MainWindow as Window1;
+
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg|All files (*.*)|*.*";
 
@@ -229,11 +248,11 @@ namespace WpfCurveGraph02
                     bitmap.EndInit();
                     bitmap.Freeze();
 
-                    SelectedWritableBitmap = new WriteableBitmap(bitmap);
+                    //SelectedWritableBitmap = new WriteableBitmap(bitmap);
                     //OriPixels = new byte[bitmap.PixelWidth * bitmap.PixelHeight * 4];
                     //bitmap.CopyPixels(OriPixels, bitmap.PixelWidth * 4, 0);
 
-                    OriWritableBitmap = new WriteableBitmap(bitmap);
+                    OriginalWritableBitmap = new WriteableBitmap(bitmap);
 
                     // 빈 값
                     //int width = oriWritableBitmap.PixelWidth;
@@ -247,7 +266,22 @@ namespace WpfCurveGraph02
 
                     //LayeredWritableBitmap = deepCopiedBitmap;
 
-                    LayeredWritableBitmap = CreateTransparentWriteableBitmap(OriWritableBitmap.PixelWidth, OriWritableBitmap.PixelHeight, OriWritableBitmap.DpiX, OriWritableBitmap.DpiY);
+                    //LayerCurveWritableBitmap = CreateTransparentWriteableBitmap(OriWritableBitmap.PixelWidth, OriWritableBitmap.PixelHeight, OriWritableBitmap.DpiX, OriWritableBitmap.DpiY);
+
+
+
+
+                    // SelectedWritableBitmap 을 content->grid 에 추가
+                    var grid = win!.imageContent.ChildrenOfType<Grid>().FirstOrDefault();
+                    if (grid != null)
+                    {
+                        Image img = new Image();
+                        img.Name = "original";
+                        img.Source = new WriteableBitmap(bitmap);
+                        RenderOptions.SetBitmapScalingMode(img, BitmapScalingMode.HighQuality);
+
+                        grid.Children.Add(img);
+                    }
 
                     UpdateHistogram();
                 }
@@ -295,9 +329,57 @@ namespace WpfCurveGraph02
         [RelayCommand]
         private void InverseImage()
         {
-            if (SelectedWritableBitmap == null) return;
+            //if (SelectedWritableBitmap == null) return;
 
-            ImageUtil.InverseImage(SelectedWritableBitmap);
+            if (win != null)
+            {
+                // inverse Layer 생성
+                var grid = win.imageContent.ChildrenOfType<Grid>().FirstOrDefault();
+                if (grid != null)
+                {
+                    var layerCurve = grid.Children.OfType<Image>().FirstOrDefault(x => x.Name == "layerCurve");
+                    if (layerCurve == null)
+                    {
+                        var img = grid.Children.OfType<Image>().FirstOrDefault(x => x.Name == "original");
+                        if (img != null)
+                        {
+                            var imgSource = img.Source as WriteableBitmap;
+                            if (imgSource != null)
+                            {
+                                Image imgi = new Image();
+                                imgi.Name = "layerCurve";
+                                RenderOptions.SetBitmapScalingMode(imgi, BitmapScalingMode.HighQuality);
+                                grid.Children.Add(imgi);
+
+                                Binding binding = new Binding("LayerInverseWritableBitmap") { Source = this };
+                                imgi.SetBinding(Image.SourceProperty, binding);
+                                LayerInverseWritableBitmap = imgSource;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var img = grid.Children.OfType<Image>().FirstOrDefault(x => x.Name == "layerCurve");
+                        if (img != null)
+                        {
+                            var imgSource = img.Source as WriteableBitmap;
+                            if (imgSource != null)
+                            {
+                                Image imgi = new Image();
+                                imgi.Name = "layerCurve";
+                                RenderOptions.SetBitmapScalingMode(imgi, BitmapScalingMode.HighQuality);
+                                grid.Children.Add(imgi);
+
+                                Binding binding = new Binding("LayerInverseWritableBitmap") { Source = this };
+                                imgi.SetBinding(Image.SourceProperty, binding);
+                                LayerInverseWritableBitmap = imgSource;
+                            }
+                        }
+                    }
+                }
+            }
+
+            ImageUtil.InverseImage(LayerInverseWritableBitmap!);
         }
 
         internal void SelectionChangedCurveCombo(object sender, System.Windows.Controls.SelectionChangedEventArgs e)

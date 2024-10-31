@@ -24,6 +24,7 @@ using Color = System.Windows.Media.Color;
 using Point = System.Windows.Point;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using System.Windows.Interop;
+using Image = System.Windows.Controls.Image;
 
 namespace WpfCurveGraph02
 {
@@ -69,6 +70,7 @@ namespace WpfCurveGraph02
             var chart = sender as RadCartesianChart;
             if (chart == null) return;
 
+            
             var channel = vmodel.SelectedItemHistoCombo;
             var curveData = vmodel.SeriesCurve;
             var scatterData = vmodel.SeriesScatter;
@@ -96,6 +98,34 @@ namespace WpfCurveGraph02
 
                 if (selectedScatter == null)
                 {
+                    // curve layer 생성
+                    var grid = imageContent.ChildrenOfType<Grid>().FirstOrDefault();
+                    if (grid != null)
+                    {
+                        var layerC = grid.Children.OfType<Image>().FirstOrDefault(x => x.Name == "layerCurve");
+                        if (layerC == null)
+                        {
+                            var imgo = grid.Children.OfType<Image>().FirstOrDefault(x => x.Name == "original");
+                            if (imgo != null)
+                            {
+                                var imgoSource = imgo.Source as WriteableBitmap;
+                                if (imgoSource != null)
+                                {
+                                    Image imgc = new Image();
+                                    imgc.Name = "layerCurve";
+                                    RenderOptions.SetBitmapScalingMode(imgc, BitmapScalingMode.HighQuality);
+                                    grid.Children.Add(imgc);
+
+                                    Binding binding = new Binding("LayerCurveWritableBitmap") { Source = vmodel };
+                                    imgc.SetBinding(Image.SourceProperty, binding);
+                                    //imgc.SetValue(Image.SourceProperty, imgoSource);
+                                    vmodel.LayerCurveWritableBitmap = imgoSource;
+                                }
+                            }
+                        }
+                    }
+
+
                     finder.PointCollections = curveData;
                     closestPointCurve = finder.FindClosestPoint(pos, detectDistance);
 
@@ -191,9 +221,9 @@ namespace WpfCurveGraph02
 
                     //ImageUtil.ApplyFilter2Image(vmodel.OriWritableBitmap, lut, vmodel.SelectedItemHistoCombo.Value.Key);
                     //ImageUtil.ApplyFilter2Image2(vmodel.OriWritableBitmap, vmodel.SelectedWritableBitmap, lut);
-                    
-                    //ImageUtil.ApplyFilter2Image3(vmodel.OriWritableBitmap, vmodel.SelectedWritableBitmap, lut);
-                    ImageUtil.ApplyFilter2Image4(vmodel.LayeredWritableBitmap!, lut);
+
+                    ImageUtil.ApplyFilter2Image3(vmodel.OriginalWritableBitmap, vmodel.LayerCurveWritableBitmap, lut);
+                    //ImageUtil.ApplyFilter2Image4(vmodel.LayerCurveWritableBitmap!, lut);
 
                 }
             }
@@ -233,7 +263,7 @@ namespace WpfCurveGraph02
 
             chart.ReleaseMouseCapture();
 
-            if (e.LeftButton != MouseButtonState.Pressed) return;
+            //if (e.LeftButton != MouseButtonState.Pressed) return;
 
             if (!curveIsDragging) return;
 
@@ -628,7 +658,7 @@ namespace WpfCurveGraph02
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
                 {
-                    img.Source = SKBitmapToBitmapImage(adjustedImage!);
+                    //img.Source = SKBitmapToBitmapImage(adjustedImage!);
                 }));
             }
             catch (Exception ex)
@@ -754,7 +784,7 @@ namespace WpfCurveGraph02
                     Marshal.Copy(pixelBuffer, 0, dstData.Scan0, byteCount);
                     result.UnlockBits(dstData);
 
-                    img.Source = ToBitmapSource(result);
+                    //img.Source = ToBitmapSource(result);
                 }));
 
                 //return result;
